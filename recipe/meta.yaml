@@ -1,4 +1,4 @@
-{% set version = "2.2" %}
+{% set version = "2.3" %}
 {% set build_number = 0 %}
 
 package:
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/c/collatex/collatex-{{ version }}.tar.gz
-  sha256: f14aaa526efbb702a952ca66aa98124468b656a2161702dfff69638a978c93bb
+  sha256: ae61abf9d1093c894544096bf8bd23f87d9409e9ff3c3052b31cffff190f9ad3
 
 build:
   noarch: python
