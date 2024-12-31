@@ -1,7 +1,9 @@
 {% set version = "2.3" %}
 
+{% set PYTHON = PYTHON | default("$PYTHON") %}
+
 package:
-  name: collatex-python-split
+  name: collatex-python
   version: {{ version }}
 
 source:
@@ -9,51 +11,40 @@ source:
   sha256: ae61abf9d1093c894544096bf8bd23f87d9409e9ff3c3052b31cffff190f9ad3
 
 build:
-  noarch: python
   number: 1
+  noarch: python
+  script:
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
 
 requirements:
   host:
-    - python {{ python_min }}
     - pip
+    - python {{ python_min }}
+    - setuptools
   run:
+    - networkx
+    - prettytable
     - python >={{ python_min }}
+    - python-levenshtein
+
+test:
+  imports:
+    - collatex
+  commands:
+    - pip check
+  requires:
+    - pip
 
 outputs:
   - name: collatex-python
-    build:
-      noarch: python
-      script:
-        - {{ PYTHON }} -m pip install . -vv --no-deps --ignore-installed
-
-    requirements:
-      host:
-        - pip
-        - python {{ python_min }}
-      run:
-        - networkx
-        - prettytable
-        - python >={{ python_min }}
-        - python-levenshtein
-
-    test:
-      imports:
-        - collatex
-      commands:
-        - pip check
-      requires:
-        - pip
 
   - name: collatex-python-with-jupyter
     build:
-      noarch: python
+      noarch: generic
     requirements:
-      host:
-        - python {{ python_min }}
       run:
         - {{ pin_subpackage("collatex-python", max_pin="x.x.x") }}
         - ipython
-        - python >={{ python_min }}
         - python-graphviz
     test:
       source_files:
