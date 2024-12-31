@@ -5,19 +5,19 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/c/collatex/collatex-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/c/collatex/collatex-{{ version }}.tar.gz
   sha256: ae61abf9d1093c894544096bf8bd23f87d9409e9ff3c3052b31cffff190f9ad3
 
 build:
   noarch: python
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python >=3.7
+    - python {{ python_min }}
     - pip
   run:
-    - python >=3.7
+    - python >={{ python_min }}
 
 outputs:
   - name: collatex-python
@@ -29,11 +29,11 @@ outputs:
     requirements:
       host:
         - pip
-        - python >=3.7
+        - python {{ python_min }}
       run:
         - networkx
         - prettytable
-        - python >=3.7
+        - python >={{ python_min }}
         - python-levenshtein
 
     test:
@@ -49,11 +49,11 @@ outputs:
       noarch: python
     requirements:
       host:
-        - python >=3.7
+        - python {{ python_min }}
       run:
         - {{ pin_subpackage("collatex-python", max_pin="x.x.x") }}
         - ipython
-        - python >=3.7
+        - python >={{ python_min }}
         - python-graphviz
     test:
       source_files:
@@ -66,6 +66,7 @@ outputs:
       requires:
         - pip
         - pytest-cov
+        - python {{ python_min }}
 
 about:
   home: https://collatex.net
